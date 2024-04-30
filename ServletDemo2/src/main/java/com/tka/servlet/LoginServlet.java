@@ -1,0 +1,71 @@
+package com.tka.servlet;
+
+import jakarta.servlet.ServletException;
+
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import com.tka.dao.studentsDao;
+import com.tka.entity.students;
+
+ /**
+ * Servlet implementation class LoginServlet
+ */
+public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public LoginServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	    //System.out.println("U r in do get method");	
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		//doGet(request, response);
+		System.out.println("U r in do post method");
+		
+		String username=request.getParameter("username");
+		System.out.println("username is"+username);
+		
+		String password=request.getParameter("password");
+		
+		System.out.println("password is"+password);
+		
+		studentsDao dao=new studentsDao();
+		students s= dao.checkUser(username, password);
+		
+		PrintWriter pw= response.getWriter();
+		response.setContentType("text/html");
+		pw.print("<html><head><title>User Profile</title></head><body>");
+		if(s!=null) {
+			System.out.println("Valid User...");
+		//	pw.print("Valid User...");
+			pw.print(" <h2 style='color:green;'> Valid User </h2> ");
+			}else {
+			System.out.println("Invlid User...");
+	     // pw.print("Invalid User...");
+			pw.print("<h2 style='color:red;'> Invalid User</h2>");
+		}
+		pw.print("</body></html>");
+		pw.close();
+	}
+
+}
